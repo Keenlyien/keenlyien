@@ -1,0 +1,109 @@
+:root {
+  --color-canvas-default: #0d1117;
+  --color-canvas-subtle:  #161b22;
+  --color-border-default: #30363d;
+  --color-accent-fg:      #58a6ff;
+  --color-fg-default:     #c9d1d9;
+  --color-fg-muted:       #8b949e;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-canvas-default);
+  color: var(--color-fg-default);
+  font-family: 'Fira Code', 'Courier New', monospace;
+  margin: 0;
+  overflow-x: hidden;
+  font-weight: 500;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-canvas-default);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border-default);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-fg-muted);
+}
+
+/* Sections */
+section {
+  padding: 80px 0;
+  position: relative;
+}
+
+/* About Section */
+#about .about-layout {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+#about .cards-wrapper {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  max-width: 900px;
+}
+
+#about .cards-container {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+}
+
+#about .terminal-wrapper {
+  flex-shrink: 0;
+}
+
+#about .terminal-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+#about .terminal-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+#about .terminal-content::-webkit-scrollbar-thumb {
+  background: #30363d;
+  border-radius: 3px;
+}
+
+#about .terminal-content::-webkit-scrollbar-thumb:hover {
+  background: #484f58;
+}
+
+/* Text selection */
+::selection {
+  background: rgba(88, 166, 255, 0.3);
+  color: #fff;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  section {
+    padding: 60px 0;
+  }
+}
