@@ -1,43 +1,71 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const navItems = [
-  { href: '#hero', label: 'Home', icon: 'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6' },
-  { href: '#about', label: 'About', icon: 'M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z' },
-  { href: '#projects', label: 'Projects', icon: 'M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z' },
-  { href: '#contact', label: 'Contact', icon: 'M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z' },
+  { type: 'anchor', href: '#hero', id: 'hero', label: 'Home', icon: 'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6' },
+  { type: 'route', to: '/personal', id: 'personal', label: 'Personal', icon: 'M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 11a4 4 0 100-8 4 4 0 000 8z' },
+  { type: 'anchor', href: '#about', id: 'about', label: 'About', icon: 'M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z' },
+  { type: 'anchor', href: '#projects', id: 'projects', label: 'Projects', icon: 'M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z' },
+  { type: 'anchor', href: '#contact', id: 'contact', label: 'Contact', icon: 'M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z' },
 ];
 
 function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState('');
   const [mobileOpen, setMobileOpen] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // Keep "Personal" highlighted while actually on the /personal route.
+  useEffect(() => {
+    if (location.pathname === '/personal') {
+      setActiveSection('personal');
+    }
+  }, [location.pathname]);
 
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
 
-      const sections = navItems.map(item => item.href.substring(1));
+      // Section scroll-tracking only makes sense on the home page,
+      // where the anchor sections actually exist in the DOM.
+      if (location.pathname !== '/') return;
+
+      const anchorIds = navItems.filter(i => i.type === 'anchor').map(i => i.id);
       const scrollPosition = window.scrollY + 100;
 
-      for (let i = sections.length - 1; i >= 0; i--) {
-        const element = document.getElementById(sections[i]);
+      for (let i = anchorIds.length - 1; i >= 0; i--) {
+        const element = document.getElementById(anchorIds[i]);
         if (element && element.offsetTop <= scrollPosition) {
-          setActiveSection(sections[i]);
+          setActiveSection(anchorIds[i]);
           break;
         }
       }
     };
 
     window.addEventListener('scroll', handleScroll);
+    handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [location.pathname]);
 
-  const handleNavClick = (e, href) => {
+  const handleNavClick = (e, item) => {
     e.preventDefault();
     setMobileOpen(false);
-    const element = document.querySelector(href);
+
+    if (item.type === 'route') {
+      navigate(item.to);
+      return;
+    }
+
+    // Anchor item: if we're not on the home page, navigate there first
+    // and pass along which section to scroll to once it renders.
+    if (location.pathname !== '/') {
+      navigate('/', { state: { scrollTo: item.href } });
+      return;
+    }
+
+    const element = document.querySelector(item.href);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
     }
@@ -91,21 +119,21 @@ function Navbar() {
           >
             <ul className="navbar-nav ms-auto">
               {navItems.map((item, index) => {
-                const sectionId = item.href.substring(1);
-                const isActive = activeSection === sectionId;
+                const isActive = activeSection === item.id;
+                const linkHref = item.type === 'route' ? item.to : item.href;
 
                 return (
                   <motion.li
-                    key={item.href}
+                    key={item.id}
                     className="nav-item"
                     initial={{ opacity: 0, y: -20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: index * 0.1 }}
                   >
                     <a
-                      href={item.href}
+                      href={linkHref}
                       className={`nav-link ${isActive ? 'active' : ''}`}
-                      onClick={(e) => handleNavClick(e, item.href)}
+                      onClick={(e) => handleNavClick(e, item)}
                     >
                       <svg className="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                         <path d={item.icon} />
