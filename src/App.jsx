@@ -6,6 +6,7 @@ import About from './components/About';
 import Projects from './components/Projects';
 import Contact from './components/Contact';
 import Personal from './components/Personal';
+import { FaviconProvider } from './context/FaviconContext';
 
 function Home() {
   const location = useLocation();
@@ -37,13 +38,15 @@ function Home() {
 
 function App() {
   return (
-    <BrowserRouter>
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/personal" element={<Personal />} />
-      </Routes>
-    </BrowserRouter>
+    <FaviconProvider>
+      <BrowserRouter>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/personal" element={<Personal />} />
+        </Routes>
+      </BrowserRouter>
+    </FaviconProvider>
   );
 }
 

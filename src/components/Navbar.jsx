@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useFaviconFrame } from '../context/faviconFrames';
 
 const navItems = [
   { type: 'anchor', href: '#hero', id: 'hero', label: 'Home', icon: 'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6' },
@@ -16,6 +17,7 @@ function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
+  const faviconFrame = useFaviconFrame();
 
   // Keep "Personal" highlighted while actually on the /personal route.
   useEffect(() => {
@@ -33,6 +35,19 @@ function Navbar() {
       if (location.pathname !== '/') return;
 
       const anchorIds = navItems.filter(i => i.type === 'anchor').map(i => i.id);
+
+      // Special case: if the user has scrolled to (or very near) the bottom
+      // of the page, force-highlight the last section. Without this, the
+      // last section can never be detected if its own height doesn't allow
+      // scrolling far enough past its top for the offset check below to pass.
+      const scrolledToBottom =
+        window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2;
+
+      if (scrolledToBottom) {
+        setActiveSection(anchorIds[anchorIds.length - 1]);
+        return;
+      }
+
       const scrollPosition = window.scrollY + 100;
 
       for (let i = anchorIds.length - 1; i >= 0; i--) {
@@ -86,6 +101,7 @@ function Navbar() {
             whileTap={{ scale: 0.95 }}
           >
             <Link to="/" className="brand-link">
+              <img src={faviconFrame} alt="" className="brand-icon" />
               Keenlyien    
             </Link>
           </motion.div>
@@ -177,7 +193,16 @@ function Navbar() {
           text-decoration: none;
           display: inline-flex;
           align-items: center;
-          gap: 2px;
+          gap: 8px;
+        }
+
+        .brand-icon {
+          width: 28px;
+          height: 28px;
+          border-radius: 50%;
+          object-fit: cover;
+          border: 1px solid #30363d;
+          flex-shrink: 0;
         }
 
         .brand-bracket {
