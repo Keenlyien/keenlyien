@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
-const roles = ['Aspiring Developer', 'Open Source Enthusiast', 'Automations Specialist'];
+const roles = ['Web Developer', 'Prompt Engineer', 'Automation Specialist'];
 const typingSpeed = 100;
 const deletingSpeed = 50;
 const pauseDuration = 2000;

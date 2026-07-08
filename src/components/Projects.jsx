@@ -298,7 +298,7 @@ function Projects() {
             My Work
           </div>
           <h2 className="section-title">Featured Projects</h2>
-          <p className="section-subtitle">Things I've built that I'm proud of</p>
+          <p className="section-subtitle">Things I've built over the time</p>
         </motion.div>
 
         {loading ? (

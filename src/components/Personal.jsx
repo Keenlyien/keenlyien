@@ -34,8 +34,6 @@ const contactLinks = [
   },
 ];
 
-const gifSlots = ['left', 'center', 'right'];
-
 function Personal() {
   return (
     <section id="personal">
@@ -48,13 +46,10 @@ function Personal() {
           transition={{ duration: 0.5 }}
         >
           <div className="photo-placeholder">
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-              <circle cx="12" cy="8" r="4" />
-              <path d="M4 20c0-4.418 3.582-7 8-7s8 2.582 8 7" />
-            </svg>
+            <img src="/images/profile.jpg" alt="Kenneth Julius Calub" className="profile-photo" />
           </div>
 
-          <h2 className="personal-name">Your Name</h2>
+          <h2 className="personal-name">Kenneth Julius Calub</h2>
 
           <div className="personal-contact-icons">
             {contactLinks.map((link) => (
@@ -98,19 +93,16 @@ function Personal() {
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.3 }}
         >
-          {gifSlots.map((slot, index) => (
-            <motion.div
-              key={slot}
-              className="gif-card"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.3 + index * 0.1, duration: 0.5 }}
-              whileHover={{ scale: 1.02 }}
-            >
-              <span className="gif-card-label">GIF placeholder ({slot})</span>
-            </motion.div>
-          ))}
+          <motion.div
+            className="gif-card"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.3, duration: 0.5 }}
+            whileHover={{ scale: 1.02 }}
+          >
+            <img src="/images/wake-up.gif" alt="Waking up" className="gif-card-media" />
+          </motion.div>
         </motion.div>
       </div>
 
@@ -132,13 +124,20 @@ function Personal() {
           width: 150px;
           height: 150px;
           border-radius: 50%;
+          overflow: hidden;
           background: linear-gradient(145deg, #161b22 0%, #0d1117 100%);
-          border: 2px dashed #30363d;
+          border: 1px solid #30363d;
           display: flex;
           align-items: center;
           justify-content: center;
-          color: #8b949e;
           margin-bottom: 20px;
+        }
+
+        .profile-photo {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          object-position: center 20%;
         }
 
         .personal-name {
@@ -195,19 +194,23 @@ function Personal() {
         }
 
         .gif-card {
-          flex: 1 1 280px;
-          max-width: 320px;
-          aspect-ratio: 4 / 3;
+          flex: 0 1 260px;
+          max-width: 260px;
+          aspect-ratio: 275 / 498;
           border-radius: 16px;
+          overflow: hidden;
           background: linear-gradient(145deg, #161b22 0%, #0d1117 100%);
-          border: 2px dashed #30363d;
+          border: 1px solid #30363d;
           display: flex;
           align-items: center;
           justify-content: center;
-          color: #8b949e;
-          font-size: 0.9rem;
-          text-align: center;
-          padding: 16px;
+        }
+
+        .gif-card-media {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          display: block;
         }
 
         @media (max-width: 768px) {
@@ -222,16 +225,6 @@ function Personal() {
           .photo-placeholder {
             width: 120px;
             height: 120px;
-          }
-
-          .gif-row {
-            flex-direction: column;
-            align-items: center;
-          }
-
-          .gif-card {
-            width: 100%;
-            max-width: 320px;
           }
         }
       `}</style>
