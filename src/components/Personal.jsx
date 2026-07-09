@@ -78,11 +78,31 @@ function Personal() {
           transition={{ duration: 0.5, delay: 0.15 }}
         >
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod
-            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-            veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-            commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-            velit esse cillum dolore eu fugiat nulla pariatur.
+            I am Kenneth Julius D. Calub, a graduate of Bachelor of Science in
+            Information Technology from STI College General Santos. My journey
+            into technology started with a simple curiosity about how the things
+            we use every day actually work behind the screen, and that curiosity
+            eventually grew into a genuine passion for building software.
+          </p>
+          <p>
+            I'm an aspiring developer eager to gain hands-on experience through
+            real projects, internships, and collaborative work where I can keep
+            learning from others while contributing meaningfully. Web development
+            has become one of my main focuses, and I enjoy the process of turning
+            an idea into something people can actually interact with, from the
+            first line of code to a finished, polished product.
+          </p>
+          <p>
+            Beyond web development, I only have surface-level knowledge of game
+            development, but it's an area I'm eager to explore further. I'm
+            always ready to adapt when the opportunity calls for it, and I'd
+            happily dive deeper into it given the right training or project to
+            learn from.
+          </p>
+          <p>
+            I'm always open to new opportunities, whether that's a project to
+            collaborate on, a role to grow into, or simply a conversation about
+            technology and where it's headed.
           </p>
         </motion.div>
 
@@ -95,10 +115,6 @@ function Personal() {
         >
           <motion.div
             className="gif-card"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.3, duration: 0.5 }}
             whileHover={{ scale: 1.02 }}
           >
             <img src="/images/wake-up.gif" alt="Waking up" className="gif-card-media" />
@@ -184,6 +200,11 @@ function Personal() {
           font-size: 1.05rem;
           line-height: 1.8;
           text-align: center;
+          margin-bottom: 20px;
+        }
+
+        .personal-body p:last-child {
+          margin-bottom: 0;
         }
 
         .gif-row {
