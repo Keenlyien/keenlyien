@@ -4,6 +4,17 @@ import { FaviconContext, FAVICON_FRAMES, FAVICON_INTERVAL_MS } from './faviconFr
 export function FaviconProvider({ children }) {
   const [frame, setFrame] = useState(FAVICON_FRAMES[0]);
 
+  // Preload all 4 frames into memory once, up front. This means the
+  // interval below is just swapping references to already-loaded images,
+  // instead of relying on the browser to correctly cache repeated
+  // requests to the same favicon URL (which it doesn't always do).
+  useEffect(() => {
+    FAVICON_FRAMES.forEach((src) => {
+      const img = new Image();
+      img.src = src;
+    });
+  }, []);
+
   // Single interval, single source of truth for the current frame.
   useEffect(() => {
     let index = 0;
