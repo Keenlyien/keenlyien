@@ -50,6 +50,13 @@ const sections = {
     content: [
       '> Fetching work history...',
       '',
+      '> ASR QA/Annotator @Thoth AI',
+      '  February 2026 - May 2026',
+      '  - Reviewed and validated speaker-labeled annotations for podcasts,',
+      '    documentaries, and interviews',
+      '  - Verified speaker ID accuracy and annotator comments before final approval',
+      '  - Ensured quality control across submitted transcriptions prior to sign-off',
+      '',
       '> AI Data Analyst @Thoth AI',
       '  February 2026 - June 2026',
       '  - QA and data annotation for AI models',
